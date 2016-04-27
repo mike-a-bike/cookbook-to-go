@@ -16,6 +16,8 @@
 
 package ch.zweivelo.ctg.repo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -29,7 +31,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class RepositoryApplication {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(RepositoryApplication.class);
+
     public static void main(String[] arguments) {
+        LOGGER.info("Starting CTG Repository");
         SpringApplication.run(RepositoryApplication.class, arguments);
     }
 
