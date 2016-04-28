@@ -16,26 +16,20 @@
 
 package ch.zweivelo.ctg.repo.entities;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import java.util.Set;
 
 /**
- * Base entity representing a recipe
+ * Description of a measuring unit
  *
- * @author Michael Bieri
- * @since 26.04.16
+ * @author <a href="mailto:m.bieri@gmx.net">Michael Bieri</a>
+ * @version 0.1
+ * @since 28.04.2016
  */
-
 @Entity
-public class Recipe {
+public class Unit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,19 +37,33 @@ public class Recipe {
 
     private String name;
 
-    @Lob
     private String description;
 
-    private String state;
-
-    @OneToOne
-    @JoinColumn(name = "IMAGE_ID")
-    private Image image;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<RecipeIngredient> recipeIngredients;
-
-    Recipe() {
+    Unit() {
     }
 
+    public Unit(final String name, final String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(final String description) {
+        this.description = description;
+    }
 }

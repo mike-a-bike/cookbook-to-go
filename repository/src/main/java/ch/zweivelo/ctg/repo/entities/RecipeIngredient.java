@@ -16,46 +16,43 @@
 
 package ch.zweivelo.ctg.repo.entities;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import java.util.Set;
+import java.math.BigDecimal;
 
 /**
- * Base entity representing a recipe
+ * Mapping between a recipe and its ingredients
  *
- * @author Michael Bieri
- * @since 26.04.16
+ * @author <a href="mailto:m.bieri@gmx.net">Michael Bieri</a>
+ * @version 0.1
+ * @since 28.04.2016
  */
 
 @Entity
-public class Recipe {
+public class RecipeIngredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private String name;
+    private BigDecimal amount;
 
-    @Lob
-    private String description;
-
-    private String state;
+    private String remark;
 
     @OneToOne
-    @JoinColumn(name = "IMAGE_ID")
-    private Image image;
+    private Unit unit;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<RecipeIngredient> recipeIngredients;
+    @ManyToOne
+    @JoinColumn(name = "RECIPE_ID", nullable = false, updatable = false)
+    private Recipe recipe;
 
-    Recipe() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "INGREDIENT_ID", nullable = false, updatable = false)
+    private Ingredient ingredient;
 
 }

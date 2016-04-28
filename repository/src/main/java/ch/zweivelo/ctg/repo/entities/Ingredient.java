@@ -16,26 +16,21 @@
 
 package ch.zweivelo.ctg.repo.entities;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import java.util.Set;
 
 /**
- * Base entity representing a recipe
+ * Ingredient Entity
  *
- * @author Michael Bieri
- * @since 26.04.16
+ * @author <a href="mailto:m.bieri@gmx.net">Michael Bieri</a>
+ * @version 0.1
+ * @since 28.04.2016
  */
-
 @Entity
-public class Recipe {
+public class Ingredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,19 +38,32 @@ public class Recipe {
 
     private String name;
 
-    @Lob
-    private String description;
-
-    private String state;
+    private String remark;
 
     @OneToOne
-    @JoinColumn(name = "IMAGE_ID")
     private Image image;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<RecipeIngredient> recipeIngredients;
-
-    Recipe() {
+    Ingredient() {
     }
 
+    public Ingredient(final String name, final String remark) {
+        this.name = name;
+        this.remark = remark;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(final String remark) {
+        this.remark = remark;
+    }
 }
