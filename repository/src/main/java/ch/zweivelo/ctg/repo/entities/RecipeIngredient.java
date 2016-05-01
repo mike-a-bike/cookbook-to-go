@@ -55,4 +55,62 @@ public class RecipeIngredient {
     @JoinColumn(name = "INGREDIENT_ID", nullable = false, updatable = false)
     private Ingredient ingredient;
 
+    protected RecipeIngredient() {
+    }
+
+    public RecipeIngredient(BigDecimal amount, String remark, Unit unit, Recipe recipe, Ingredient ingredient) {
+        this.amount = amount;
+        this.remark = remark;
+        this.unit = unit;
+        this.recipe = recipe;
+        this.ingredient = ingredient;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
+
+    public Ingredient getIngredient() {
+        return ingredient;
+    }
+
+    public void setIngredient(Ingredient ingredient) {
+        this.ingredient = ingredient;
+    }
 }

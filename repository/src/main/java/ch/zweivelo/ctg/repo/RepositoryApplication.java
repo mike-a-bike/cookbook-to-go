@@ -16,14 +16,24 @@
 
 package ch.zweivelo.ctg.repo;
 
+import ch.zweivelo.ctg.repo.entities.Ingredient;
 import ch.zweivelo.ctg.repo.entities.Recipe;
+import ch.zweivelo.ctg.repo.entities.RecipeIngredient;
+import ch.zweivelo.ctg.repo.entities.State;
+import ch.zweivelo.ctg.repo.entities.Unit;
+import ch.zweivelo.ctg.repo.repositories.IngredientRepository;
+import ch.zweivelo.ctg.repo.repositories.RecipeIngredientRepository;
 import ch.zweivelo.ctg.repo.repositories.RecipeRepository;
+import ch.zweivelo.ctg.repo.repositories.StateRepository;
+import ch.zweivelo.ctg.repo.repositories.UnitRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import java.math.BigDecimal;
 
 /**
  * Boot application to start up.
@@ -43,12 +53,31 @@ public class RepositoryApplication {
     }
 
     @Bean
-    public CommandLineRunner demo(RecipeRepository recipeRepository) {
+    public CommandLineRunner demo(
+            StateRepository stateRepository,
+            UnitRepository unitRepository,
+            RecipeRepository recipeRepository,
+            IngredientRepository ingredientRepository,
+            RecipeIngredientRepository recipeIngredientRepository)
+    {
         return (args) -> {
 
-            recipeRepository.save(new Recipe("Wurstsalat", null));
+            final State newState = new State("new");
+            final State publicState = new State("public");
+            final State privateState = new State("private");
 
-            recipeRepository.findAll().forEach(recipe -> LOGGER.info("Recipe {}: {}", recipe.getId(), recipe.getName()));
+            stateRepository.save(newState);
+            stateRepository.save(publicState);
+            stateRepository.save(privateState);
+
+            final Ingredient cervelat = new Ingredient("Cervelat", null);
+            final Recipe recipe = new Recipe("Wurstsalat", null, newState);
+            final Unit unit = new Unit("Stück", null);
+
+            unitRepository.save(unit);
+            ingredientRepository.save(cervelat);
+            recipeRepository.save(recipe);
+            recipeIngredientRepository.save(new RecipeIngredient(BigDecimal.ONE, null, unit, recipe, cervelat));
 
         };
     }

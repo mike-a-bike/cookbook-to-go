@@ -23,9 +23,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
+import java.math.BigInteger;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Base entity representing a recipe
@@ -46,22 +50,27 @@ public class Recipe {
     @Lob
     private String description;
 
-    private String state;
+    private BigInteger likes;
 
     @OneToOne
     @JoinColumn(name = "IMAGE_ID")
     private Image image;
 
+    @ManyToOne
+    @JoinColumn(name = "STATE_ID")
+    private State state;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<RecipeIngredient> recipeIngredients;
+    private Set<RecipeIngredient> recipeIngredients = new TreeSet<>();
 
     Recipe() {
     }
 
-    public Recipe(String name, String description) {
+    public Recipe(String name, String description, State state) {
         this.name = name;
         this.description = description;
-        this.state = "PRIVATE";
+        this.state = state;
+        this.likes = BigInteger.ZERO;
     }
 
     public long getId() {
@@ -76,7 +85,7 @@ public class Recipe {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NotNull String name) {
         this.name = name;
     }
 
@@ -88,12 +97,20 @@ public class Recipe {
         this.description = description;
     }
 
-    public String getState() {
+    public State getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(@NotNull State state) {
         this.state = state;
+    }
+
+    public BigInteger getLikes() {
+        return likes;
+    }
+
+    public void setLikes(@NotNull BigInteger likes) {
+        this.likes = likes;
     }
 
     public Image getImage() {

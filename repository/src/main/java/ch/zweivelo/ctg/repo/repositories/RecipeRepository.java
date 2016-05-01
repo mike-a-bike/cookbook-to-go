@@ -19,7 +19,7 @@ public interface RecipeRepository extends CrudRepository<Recipe, Long> {
 
     List<Recipe> findAll();
 
-    Optional<Recipe> findById(Long id);
+    Optional<Recipe> findById(long id);
 
     List<Recipe> findByName(String name);
 

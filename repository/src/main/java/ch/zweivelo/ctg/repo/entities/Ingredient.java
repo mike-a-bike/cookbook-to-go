@@ -21,6 +21,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 /**
  * Ingredient Entity
@@ -55,7 +56,7 @@ public class Ingredient {
         return name;
     }
 
-    public void setName(final String name) {
+    public void setName(final @NotNull String name) {
         this.name = name;
     }
 
