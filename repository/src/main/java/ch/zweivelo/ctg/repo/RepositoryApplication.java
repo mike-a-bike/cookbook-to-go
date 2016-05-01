@@ -72,6 +72,7 @@ public class RepositoryApplication {
 
             final Ingredient cervelat = new Ingredient("Cervelat", null);
             final Ingredient cheese = new Ingredient("Gruyere", null);
+            final Ingredient salad = new Ingredient("Salat", null);
             final Recipe recipe = new Recipe("Wurstsalat", null, publicState);
             final Unit piece = new Unit("Stück", null);
             final Unit gramm = new Unit("Gramm", null);
@@ -80,9 +81,11 @@ public class RepositoryApplication {
             unitRepository.save(gramm);
             ingredientRepository.save(cervelat);
             ingredientRepository.save(cheese);
+            ingredientRepository.save(salad);
             recipeRepository.save(recipe);
             recipeIngredientRepository.save(new RecipeIngredient(BigDecimal.ONE, null, false, piece, recipe, cervelat));
             recipeIngredientRepository.save(new RecipeIngredient(BigDecimal.valueOf(200), null, false, gramm, recipe, cheese));
+            recipeIngredientRepository.save(new RecipeIngredient(BigDecimal.ONE, null, true, piece, recipe, salad));
 
         };
     }
