@@ -1,6 +1,7 @@
 package ch.zweivelo.ctg.repo.repositories;
 
 import ch.zweivelo.ctg.repo.entities.Recipe;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,12 +15,12 @@ import java.util.Optional;
  */
 
 @Repository
-public interface RecipeRepository extends org.springframework.data.repository.Repository<Recipe, Long> {
+public interface RecipeRepository extends CrudRepository<Recipe, Long> {
 
     List<Recipe> findAll();
 
-    Optional<Recipe> findOne(Long id);
+    Optional<Recipe> findById(Long id);
 
-    Optional<Recipe> findByName(String name);
+    List<Recipe> findByName(String name);
 
 }

@@ -33,6 +33,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +45,7 @@ import java.util.Optional;
  * @since 26.04.16
  */
 
-@Controller
+@RestController
 @RequestMapping("/recipes")
 @ExposesResourceFor(Recipe.class)
 public class RecipeController {
@@ -72,7 +73,7 @@ public class RecipeController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     HttpEntity<Resource<Recipe>> findOne(@PathVariable Long id) {
-        final Optional<Recipe> recipeOptional = recipeRepository.findOne(id);
+        final Optional<Recipe> recipeOptional = recipeRepository.findById(id);
 
         LOGGER.info("findOne: found a recipe for id {}: {}", id, recipeOptional.isPresent());
 

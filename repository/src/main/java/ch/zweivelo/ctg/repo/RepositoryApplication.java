@@ -16,10 +16,14 @@
 
 package ch.zweivelo.ctg.repo;
 
+import ch.zweivelo.ctg.repo.entities.Recipe;
+import ch.zweivelo.ctg.repo.repositories.RecipeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 /**
  * Boot application to start up.
@@ -36,6 +40,17 @@ public class RepositoryApplication {
     public static void main(String[] arguments) {
         LOGGER.info("Starting CTG Repository");
         SpringApplication.run(RepositoryApplication.class, arguments);
+    }
+
+    @Bean
+    public CommandLineRunner demo(RecipeRepository recipeRepository) {
+        return (args) -> {
+
+            recipeRepository.save(new Recipe("Wurstsalat", null));
+
+            recipeRepository.findAll().forEach(recipe -> LOGGER.info("Recipe {}: {}", recipe.getId(), recipe.getName()));
+
+        };
     }
 
 }
