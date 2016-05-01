@@ -44,6 +44,8 @@ public class RecipeIngredient {
 
     private String remark;
 
+    private boolean optional;
+
     @OneToOne
     private Unit unit;
 
@@ -58,9 +60,10 @@ public class RecipeIngredient {
     protected RecipeIngredient() {
     }
 
-    public RecipeIngredient(BigDecimal amount, String remark, Unit unit, Recipe recipe, Ingredient ingredient) {
+    public RecipeIngredient(BigDecimal amount, String remark, boolean optional, Unit unit, Recipe recipe, Ingredient ingredient) {
         this.amount = amount;
         this.remark = remark;
+        this.optional = optional;
         this.unit = unit;
         this.recipe = recipe;
         this.ingredient = ingredient;
@@ -90,6 +93,14 @@ public class RecipeIngredient {
         this.remark = remark;
     }
 
+    public boolean isOptional() {
+        return optional;
+    }
+
+    public void setOptional(boolean optional) {
+        this.optional = optional;
+    }
+
     public Unit getUnit() {
         return unit;
     }
@@ -98,13 +109,13 @@ public class RecipeIngredient {
         this.unit = unit;
     }
 
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
-    }
+//    public Recipe getRecipe() {
+//        return recipe;
+//    }
+//
+//    public void setRecipe(Recipe recipe) {
+//        this.recipe = recipe;
+//    }
 
     public Ingredient getIngredient() {
         return ingredient;

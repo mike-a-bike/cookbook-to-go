@@ -71,13 +71,18 @@ public class RepositoryApplication {
             stateRepository.save(privateState);
 
             final Ingredient cervelat = new Ingredient("Cervelat", null);
-            final Recipe recipe = new Recipe("Wurstsalat", null, newState);
-            final Unit unit = new Unit("Stück", null);
+            final Ingredient cheese = new Ingredient("Gruyere", null);
+            final Recipe recipe = new Recipe("Wurstsalat", null, publicState);
+            final Unit piece = new Unit("Stück", null);
+            final Unit gramm = new Unit("Gramm", null);
 
-            unitRepository.save(unit);
+            unitRepository.save(piece);
+            unitRepository.save(gramm);
             ingredientRepository.save(cervelat);
+            ingredientRepository.save(cheese);
             recipeRepository.save(recipe);
-            recipeIngredientRepository.save(new RecipeIngredient(BigDecimal.ONE, null, unit, recipe, cervelat));
+            recipeIngredientRepository.save(new RecipeIngredient(BigDecimal.ONE, null, false, piece, recipe, cervelat));
+            recipeIngredientRepository.save(new RecipeIngredient(BigDecimal.valueOf(200), null, false, gramm, recipe, cheese));
 
         };
     }

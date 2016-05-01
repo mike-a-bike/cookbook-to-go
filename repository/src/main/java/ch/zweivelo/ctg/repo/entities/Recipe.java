@@ -18,6 +18,7 @@ package ch.zweivelo.ctg.repo.entities;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -60,7 +61,7 @@ public class Recipe {
     @JoinColumn(name = "STATE_ID")
     private State state;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe", fetch = FetchType.LAZY)
     private Set<RecipeIngredient> recipeIngredients = new TreeSet<>();
 
     Recipe() {
