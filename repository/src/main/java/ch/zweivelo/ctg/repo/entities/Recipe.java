@@ -48,6 +48,8 @@ public class Recipe {
 
     private String name;
 
+    private String nameForQuery;
+
     @Lob
     private String description;
 
@@ -69,6 +71,7 @@ public class Recipe {
 
     public Recipe(String name, String description, State state) {
         this.name = name;
+        this.nameForQuery = name.toUpperCase();
         this.description = description;
         this.state = state;
         this.likes = BigInteger.ZERO;
@@ -88,6 +91,7 @@ public class Recipe {
 
     public void setName(@NotNull String name) {
         this.name = name;
+        this.nameForQuery = name.toUpperCase();
     }
 
     public String getDescription() {

@@ -71,7 +71,7 @@ public class RecipeController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    HttpEntity<Resource<Recipe>> findOne(@PathVariable Long id) {
+    HttpEntity<Resource<Recipe>> findOne(@PathVariable("id") long id) {
         final Optional<Recipe> recipeOptional = recipeRepository.findById(id);
 
         LOGGER.info("findOne: found a recipe for id {}: {}", id, recipeOptional.isPresent());

@@ -20,6 +20,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
@@ -39,6 +40,9 @@ public class Ingredient {
 
     private String name;
 
+    private String nameForQuery;
+
+    @Lob
     private String remark;
 
     @OneToOne
@@ -49,6 +53,7 @@ public class Ingredient {
 
     public Ingredient(final String name, final String remark) {
         this.name = name;
+        this.nameForQuery = name.toUpperCase();
         this.remark = remark;
     }
 
@@ -58,6 +63,7 @@ public class Ingredient {
 
     public void setName(final @NotNull String name) {
         this.name = name;
+        this.nameForQuery = name.toUpperCase();
     }
 
     public String getRemark() {
