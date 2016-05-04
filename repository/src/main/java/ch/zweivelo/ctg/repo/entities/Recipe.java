@@ -24,13 +24,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Base entity representing a recipe
@@ -64,7 +65,10 @@ public class Recipe {
     private State state;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe", fetch = FetchType.LAZY)
-    private Set<RecipeIngredient> recipeIngredients = new TreeSet<>();
+    private Set<RecipeIngredient> recipeIngredients = new HashSet<>();
+
+    @ManyToMany
+    private Set<Category> categories = new HashSet<>();
 
     Recipe() {
     }
@@ -132,5 +136,13 @@ public class Recipe {
 
     public void setRecipeIngredients(Set<RecipeIngredient> recipeIngredients) {
         this.recipeIngredients = recipeIngredients;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 }

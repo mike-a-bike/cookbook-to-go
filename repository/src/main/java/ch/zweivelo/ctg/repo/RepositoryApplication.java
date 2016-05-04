@@ -16,11 +16,13 @@
 
 package ch.zweivelo.ctg.repo;
 
+import ch.zweivelo.ctg.repo.entities.Category;
 import ch.zweivelo.ctg.repo.entities.Ingredient;
 import ch.zweivelo.ctg.repo.entities.Recipe;
 import ch.zweivelo.ctg.repo.entities.RecipeIngredient;
 import ch.zweivelo.ctg.repo.entities.State;
 import ch.zweivelo.ctg.repo.entities.Unit;
+import ch.zweivelo.ctg.repo.repositories.CategoryRepository;
 import ch.zweivelo.ctg.repo.repositories.IngredientRepository;
 import ch.zweivelo.ctg.repo.repositories.RecipeIngredientRepository;
 import ch.zweivelo.ctg.repo.repositories.RecipeRepository;
@@ -58,7 +60,8 @@ public class RepositoryApplication {
             UnitRepository unitRepository,
             RecipeRepository recipeRepository,
             IngredientRepository ingredientRepository,
-            RecipeIngredientRepository recipeIngredientRepository)
+            RecipeIngredientRepository recipeIngredientRepository,
+            CategoryRepository categoryRepository)
     {
         return (args) -> {
 
@@ -69,6 +72,13 @@ public class RepositoryApplication {
             stateRepository.save(newState);
             stateRepository.save(publicState);
             stateRepository.save(privateState);
+
+            final Category saladCategory = new Category("Salad", "Cold dish");
+            final Category swissCategory = new Category("Swiss", null);
+            final Category italianCategory = new Category("Italian", null);
+            categoryRepository.save(saladCategory);
+            categoryRepository.save(swissCategory);
+            categoryRepository.save(italianCategory);
 
             final Ingredient cervelat = new Ingredient("Cervelat", null);
             final Ingredient cheese = new Ingredient("Gruyere", null);
@@ -82,10 +92,15 @@ public class RepositoryApplication {
             ingredientRepository.save(cervelat);
             ingredientRepository.save(cheese);
             ingredientRepository.save(salad);
+            recipe.getCategories().add(saladCategory);
+            recipe.getCategories().add(swissCategory);
             recipeRepository.save(recipe);
             recipeIngredientRepository.save(new RecipeIngredient(BigDecimal.ONE, null, false, piece, recipe, cervelat));
             recipeIngredientRepository.save(new RecipeIngredient(BigDecimal.valueOf(200), null, false, gramm, recipe, cheese));
             recipeIngredientRepository.save(new RecipeIngredient(BigDecimal.ONE, null, true, piece, recipe, salad));
+
+            recipeRepository.findByCategoriesIn(saladCategory, italianCategory).stream().map(Recipe::getName).forEach(LOGGER::info);
+            recipeRepository.findByRecipeIngredients_Ingredient(cervelat).stream().map(Recipe::getName).forEach(LOGGER::info);
 
         };
     }
