@@ -16,6 +16,7 @@
 
 package ch.zweivelo.ctg.repo.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,9 +39,8 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column(nullable = false)
     private String name;
-
-    private String nameForQuery;
 
     @Lob
     private String remark;
@@ -53,8 +53,15 @@ public class Ingredient {
 
     public Ingredient(final String name, final String remark) {
         this.name = name;
-        this.nameForQuery = name.toUpperCase();
         this.remark = remark;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(final long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -63,7 +70,6 @@ public class Ingredient {
 
     public void setName(final @NotNull String name) {
         this.name = name;
-        this.nameForQuery = name.toUpperCase();
     }
 
     public String getRemark() {
@@ -72,5 +78,13 @@ public class Ingredient {
 
     public void setRemark(final String remark) {
         this.remark = remark;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(final Image image) {
+        this.image = image;
     }
 }

@@ -16,16 +16,30 @@
 
 package ch.zweivelo.ctg.repo.repositories;
 
-import ch.zweivelo.ctg.repo.entities.RecipeIngredient;
+import ch.zweivelo.ctg.repo.entities.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
- * Basic repository for accessing the saved {@link RecipeIngredient} entities.
+ * TODO: COMMENT
  *
- * @author Michael Bieri
- * @since 01.05.16
+ * @author <a href="mailto:m.bieri@gmx.net">Michael Bieri</a>
+ * @version 0.1
+ * @since 07.06.2016
  */
+
 @Repository
-public interface RecipeIngredientRepository extends CrudRepository<RecipeIngredient, Long> {
+public interface UserRepository extends CrudRepository<User, Long> {
+
+    List<User> findAll();
+
+    Optional<User> findById(long id);
+
+    Optional<User> findByUsername(String username);
+
+    Optional<User> findByEmail(String email);
+
 }

@@ -17,7 +17,8 @@
 package ch.zweivelo.ctg.repo.controller;
 
 import ch.zweivelo.ctg.repo.entities.Recipe;
-import ch.zweivelo.ctg.repo.repositories.RecipeRepository;
+import ch.zweivelo.ctg.repo.entities.User;
+import ch.zweivelo.ctg.repo.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,50 +39,51 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * REST controller exposing the recipe mappings
+ * TODO: COMMENT
  *
- * @author Michael Bieri
- * @since 26.04.16
+ * @author <a href="mailto:m.bieri@gmx.net">Michael Bieri</a>
+ * @version 0.1
+ * @since 07.06.2016
  */
-
 @RestController
-@RequestMapping("/recipes")
-@ExposesResourceFor(Recipe.class)
-public class RecipeController {
+@RequestMapping("/users")
+@ExposesResourceFor(User.class)
+public class UserController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RecipeController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
-    private final RecipeRepository recipeRepository;
+    private final UserRepository userRepository;
 
     private final EntityLinks entityLinks;
 
     @Autowired
-    public RecipeController(RecipeRepository recipeRepository, EntityLinks entityLinks) {
-        this.recipeRepository = recipeRepository;
+    public UserController(final UserRepository userRepository, final EntityLinks entityLinks) {
+        this.userRepository = userRepository;
         this.entityLinks = entityLinks;
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    HttpEntity<Resources<Recipe>> findAll() {
-        final List<Recipe> recipes = recipeRepository.findAll();
-        LOGGER.info("findAll: found {} recipes", recipes.size());
-        Resources<Recipe> resources = new Resources<>(recipes);
+    HttpEntity<Resources<User>> findAll() {
+        final List<User> users = userRepository.findAll();
+        LOGGER.info("findAll: found {} recipes", users.size());
+        Resources<User> resources = new Resources<>(users);
         resources.add(entityLinks.linkToCollectionResource(Recipe.class));
         return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    HttpEntity<Resource<Recipe>> findOne(@PathVariable("id") long id) {
-        final Optional<Recipe> recipeOptional = recipeRepository.findById(id);
+    @RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    HttpEntity<Resource<User>> findForUsername(@PathVariable("username") String username) {
+        final Optional<User> userOptional = userRepository.findByUsername(username);
 
-        LOGGER.info("findOne: found a recipe for id {}: {}", id, recipeOptional.isPresent());
+        LOGGER.info("findOne: found a user with  username {}: {}", username, userOptional.isPresent());
 
-        return recipeOptional.map(
-                recipe -> {
-                    Resource<Recipe> resource = new Resource<>(recipe);
-                    resource.add(entityLinks.linkToSingleResource(Recipe.class, id));
-                    return new ResponseEntity<>(resource, HttpStatus.OK);
-                })
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return userOptional.map(
+            user -> {
+                Resource<User> resource = new Resource<>(user);
+                resource.add(entityLinks.linkToSingleResource(User.class, username));
+                return new ResponseEntity<>(resource, HttpStatus.OK);
+            })
+            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
 }

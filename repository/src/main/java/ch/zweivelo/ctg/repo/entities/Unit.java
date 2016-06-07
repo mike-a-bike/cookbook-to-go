@@ -16,6 +16,7 @@
 
 package ch.zweivelo.ctg.repo.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,15 +36,28 @@ public class Unit {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column(nullable = false)
     private String name;
+
+    private String shortName;
 
     private String description;
 
     Unit() {
     }
 
-    public Unit(final String name, final String description) {
+    public Unit(final String name) {
         this.name = name;
+    }
+
+    public Unit(final String name, final String shortName) {
+        this.name = name;
+        this.shortName = shortName;
+    }
+
+    public Unit(final String name, final String shortName, final String description) {
+        this.name = name;
+        this.shortName = shortName;
         this.description = description;
     }
 
@@ -57,6 +71,14 @@ public class Unit {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(final String shortName) {
+        this.shortName = shortName;
     }
 
     public String getDescription() {

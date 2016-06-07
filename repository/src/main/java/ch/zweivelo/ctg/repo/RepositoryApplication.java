@@ -21,11 +21,13 @@ import ch.zweivelo.ctg.repo.entities.Recipe;
 import ch.zweivelo.ctg.repo.entities.RecipeIngredient;
 import ch.zweivelo.ctg.repo.entities.State;
 import ch.zweivelo.ctg.repo.entities.Unit;
+import ch.zweivelo.ctg.repo.entities.User;
 import ch.zweivelo.ctg.repo.repositories.IngredientRepository;
 import ch.zweivelo.ctg.repo.repositories.RecipeIngredientRepository;
 import ch.zweivelo.ctg.repo.repositories.RecipeRepository;
 import ch.zweivelo.ctg.repo.repositories.StateRepository;
 import ch.zweivelo.ctg.repo.repositories.UnitRepository;
+import ch.zweivelo.ctg.repo.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -33,7 +35,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import java.math.BigDecimal;
+import java.security.SecureRandom;
+import java.util.Base64;
 
 /**
  * Boot application to start up.
@@ -53,12 +60,13 @@ public class RepositoryApplication {
     }
 
     @Bean
-    public CommandLineRunner demo(
-            StateRepository stateRepository,
-            UnitRepository unitRepository,
-            RecipeRepository recipeRepository,
-            IngredientRepository ingredientRepository,
-            RecipeIngredientRepository recipeIngredientRepository)
+    public CommandLineRunner setupDemoData(
+        StateRepository stateRepository,
+        UnitRepository unitRepository,
+        RecipeRepository recipeRepository,
+        IngredientRepository ingredientRepository,
+        RecipeIngredientRepository recipeIngredientRepository,
+        UserRepository userRepository)
     {
         return (args) -> {
 
@@ -71,11 +79,11 @@ public class RepositoryApplication {
             stateRepository.save(privateState);
 
             final Ingredient cervelat = new Ingredient("Cervelat", null);
-            final Ingredient cheese = new Ingredient("Gruyere", null);
+            final Ingredient cheese = new Ingredient("Gruy\u00E8re", null);
             final Ingredient salad = new Ingredient("Salat", null);
             final Recipe recipe = new Recipe("Wurstsalat", null, publicState);
-            final Unit piece = new Unit("Stück", null);
-            final Unit gramm = new Unit("Gramm", null);
+            final Unit piece = new Unit("Stück", "Stk");
+            final Unit gramm = new Unit("Gramm", "gr");
 
             unitRepository.save(piece);
             unitRepository.save(gramm);
@@ -86,6 +94,20 @@ public class RepositoryApplication {
             recipeIngredientRepository.save(new RecipeIngredient(BigDecimal.ONE, null, false, piece, recipe, cervelat));
             recipeIngredientRepository.save(new RecipeIngredient(BigDecimal.valueOf(200), null, false, gramm, recipe, cheese));
             recipeIngredientRepository.save(new RecipeIngredient(BigDecimal.ONE, null, true, piece, recipe, salad));
+
+            final byte[] salt = new byte[64];
+            final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
+            secureRandom.nextBytes(salt);
+
+            final PBEKeySpec keySpec = new PBEKeySpec("1234 - What else?".toCharArray(), salt, 1000, 512);
+            SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
+            final SecretKey secretKey = secretKeyFactory.generateSecret(keySpec);
+            final byte[] passwordHash = secretKey.getEncoded();
+
+            User michael = new User("Michi", "Bieri", "michi", "michi@somefancydomain.whatever");
+            michael.setPassword(Base64.getEncoder().encodeToString(passwordHash));
+            michael.addToFavorites(recipe);
+            userRepository.save(michael);
 
         };
     }
