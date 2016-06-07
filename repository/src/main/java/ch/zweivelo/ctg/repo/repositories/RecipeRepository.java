@@ -1,5 +1,7 @@
 package ch.zweivelo.ctg.repo.repositories;
 
+import ch.zweivelo.ctg.repo.entities.Category;
+import ch.zweivelo.ctg.repo.entities.Ingredient;
 import ch.zweivelo.ctg.repo.entities.Recipe;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -21,6 +23,10 @@ public interface RecipeRepository extends CrudRepository<Recipe, Long> {
 
     Optional<Recipe> findById(long id);
 
-    List<Recipe> findByName(String name);
+    List<Recipe> findByNameIgnoreCase(String name);
+
+    List<Recipe> findByCategoriesIn(Category... categories);
+
+    List<Recipe> findByRecipeIngredients_Ingredient(Ingredient ingredients);
 
 }

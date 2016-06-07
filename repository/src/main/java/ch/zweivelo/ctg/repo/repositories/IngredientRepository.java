@@ -20,6 +20,6 @@ public interface IngredientRepository extends CrudRepository<Ingredient, Long> {
 
     Optional<Ingredient> findById(long id);
 
-    List<Ingredient> findByName(String name);
+    List<Ingredient> findByNameIgnoreCase(String name);
 
 }
