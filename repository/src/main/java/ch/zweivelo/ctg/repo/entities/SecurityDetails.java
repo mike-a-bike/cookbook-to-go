@@ -22,7 +22,8 @@ import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
 
 /**
- * TODO: COMMENT
+ * Encapsulate the details for the security settings. This contains the password hash as well as the salt used to
+ * create the hash value.
  *
  * @author <a href="mailto:m.bieri@gmx.net">Michael Bieri</a>
  * @version 0.1

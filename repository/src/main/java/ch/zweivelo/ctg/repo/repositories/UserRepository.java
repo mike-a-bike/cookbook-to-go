@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * TODO: COMMENT
+ * CRUD repository for accessing the user details.
  *
  * @author <a href="mailto:m.bieri@gmx.net">Michael Bieri</a>
  * @version 0.1

@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * TODO: COMMENT
+ * Simple REST controller providing access to the {@link User} resource.
  *
  * @author <a href="mailto:m.bieri@gmx.net">Michael Bieri</a>
  * @version 0.1

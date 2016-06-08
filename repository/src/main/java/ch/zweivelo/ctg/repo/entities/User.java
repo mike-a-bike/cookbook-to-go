@@ -30,7 +30,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * TODO: COMMENT
+ * Details of a user. This will be replaced by an external authorization mechanism.
  *
  * @author <a href="mailto:m.bieri@gmx.net">Michael Bieri</a>
  * @version 0.1
