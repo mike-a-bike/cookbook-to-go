@@ -16,11 +16,11 @@
 
 package ch.zweivelo.ctg.repo.entities;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 /**
  * Description of a measuring unit
@@ -36,7 +36,7 @@ public class Unit {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(nullable = false)
+    @NotNull
     private String name;
 
     private String shortName;

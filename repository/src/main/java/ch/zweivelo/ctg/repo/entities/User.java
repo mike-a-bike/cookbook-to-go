@@ -19,12 +19,13 @@ package ch.zweivelo.ctg.repo.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,31 +45,26 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(nullable = false)
+    @NotNull
     private String firstName;
 
-    @Column(nullable = false)
+    @NotNull
     private String lastName;
 
+    @NotNull
     @Column(
-        nullable = false,
         unique = true,
         length = 64)
     private String username;
 
-    @Column(
-        nullable = false,
-        unique = true)
+    @NotNull
+    @Column(unique = true)
     private String email;
 
     @JsonIgnore
-    @Lob
-    @Column(nullable = false)
-    private String password;
-
-    @JsonIgnore
-    @Column(nullable = false)
-    private boolean tainted;
+    @NotNull
+    @Embedded
+    private SecurityDetails securityDetails;
 
     @ManyToMany
     private Set<Recipe> favoriteRecipes;
@@ -81,7 +77,6 @@ public class User {
         this.lastName = lastName;
         this.username = username;
         this.email = email;
-        this.tainted = false;
         this.favoriteRecipes = new HashSet<>();
     }
 
@@ -125,22 +120,6 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(final String password) {
-        this.password = password;
-    }
-
-    public boolean isTainted() {
-        return tainted;
-    }
-
-    public void setTainted(final boolean tainted) {
-        this.tainted = tainted;
-    }
-
     public Set<Recipe> getFavoriteRecipes() {
         return favoriteRecipes;
     }
@@ -158,4 +137,13 @@ public class User {
     public void removeFromFavorites(Recipe recipe) {
         favoriteRecipes.remove(recipe);
     }
+
+    public SecurityDetails getSecurityDetails() {
+        return securityDetails;
+    }
+
+    public void setSecurityDetails(final SecurityDetails securityDetails) {
+        this.securityDetails = securityDetails;
+    }
+
 }

@@ -22,8 +22,9 @@ import ch.zweivelo.ctg.repo.entities.Recipe;
 import ch.zweivelo.ctg.repo.entities.RecipeIngredient;
 import ch.zweivelo.ctg.repo.entities.State;
 import ch.zweivelo.ctg.repo.entities.Unit;
-import ch.zweivelo.ctg.repo.repositories.CategoryRepository;
 import ch.zweivelo.ctg.repo.entities.User;
+import ch.zweivelo.ctg.repo.entities.SecurityDetails;
+import ch.zweivelo.ctg.repo.repositories.CategoryRepository;
 import ch.zweivelo.ctg.repo.repositories.IngredientRepository;
 import ch.zweivelo.ctg.repo.repositories.RecipeIngredientRepository;
 import ch.zweivelo.ctg.repo.repositories.RecipeRepository;
@@ -42,7 +43,6 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.math.BigDecimal;
 import java.security.SecureRandom;
-import java.util.Base64;
 
 /**
  * Boot application to start up.
@@ -117,7 +117,8 @@ public class RepositoryApplication {
             final byte[] passwordHash = secretKey.getEncoded();
 
             User michael = new User("Michi", "Bieri", "michi", "michi@somefancydomain.whatever");
-            michael.setPassword(Base64.getEncoder().encodeToString(passwordHash));
+            SecurityDetails securityDetails = new SecurityDetails(salt, passwordHash);
+            michael.setSecurityDetails(securityDetails);
             michael.addToFavorites(recipe);
             userRepository.save(michael);
 

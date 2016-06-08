@@ -1,10 +1,10 @@
 package ch.zweivelo.ctg.repo.entities;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 /**
  * Possible states of a recipe
@@ -20,7 +20,7 @@ public class State {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
     private String name;
 
     State() {

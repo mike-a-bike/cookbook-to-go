@@ -17,7 +17,6 @@
 package ch.zweivelo.ctg.repo.entities;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -48,7 +47,7 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(nullable = false)
+    @NotNull
     private String name;
 
     @Lob
@@ -60,6 +59,7 @@ public class Recipe {
     @JoinColumn(name = "IMAGE_ID")
     private Image image;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "STATE_ID")
     private State state;

@@ -24,6 +24,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
@@ -51,10 +52,12 @@ public class RecipeIngredient {
     @OneToOne
     private Unit unit;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "RECIPE_ID", nullable = false, updatable = false)
     private Recipe recipe;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "INGREDIENT_ID", nullable = false, updatable = false)
     private Ingredient ingredient;
