@@ -16,7 +16,6 @@
 
 package ch.zweivelo.ctg.repo.controller;
 
-import ch.zweivelo.ctg.repo.entities.Recipe;
 import ch.zweivelo.ctg.repo.entities.User;
 import ch.zweivelo.ctg.repo.repositories.UserRepository;
 import org.slf4j.Logger;
@@ -67,7 +66,7 @@ public class UserController {
         final List<User> users = userRepository.findAll();
         LOGGER.info("findAll: found {} recipes", users.size());
         Resources<User> resources = new Resources<>(users);
-        resources.add(entityLinks.linkToCollectionResource(Recipe.class));
+        resources.add(entityLinks.linkToCollectionResource(User.class));
         return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
